@@ -55,11 +55,11 @@ def planarize(a, b, c):
     @return [Plane Origin as AtomicPoint, Surface Normal Unit Vector, Axis Unit Vector 1, Othoganal Axis Unit Vector 2, 
                  Constant for cartesian planar equation with regards to surface normal k]
     '''
-    ab = [b.x-a.x,b.y-a.y,b.z-a.z]
-    ac = [c.x-a.x,c.y-a.y,c.z-a.z]
+    ab = [b.x-a.x,b.y-a.y,b.z-a.z]  #vector from a --> b
+    ac = [c.x-a.x,c.y-a.y,c.z-a.z]  #vector from a --> c
     
-    n_ab = normalize(ab)
-    n_ac = normalize(ac)
+    n_ab = normalize(ab) #normaized ab vector
+    n_ac = normalize(ac) #normaized ac vector
     
     #Cross product vector between ab and ac
     surface_normal = [n_ab[1]*n_ac[2] - n_ab[2]*n_ac[1], -1*(n_ab[0]*n_ac[2] - n_ab[2]*n_ac[0]), n_ab[0]*n_ac[1] - n_ab[1]*n_ac[0]]
@@ -69,10 +69,10 @@ def planarize(a, b, c):
     in_plane_normal = [n_surface_normal[1]*n_ab[2] - n_surface_normal[2]*n_ab[1], -1*(n_surface_normal[0]*n_ab[2] - n_surface_normal[2]*n_ab[0]), n_surface_normal[0]*n_ab[1] - n_surface_normal[1]*n_ab[0]]
     n_in_plane_normal = normalize(in_plane_normal)
     
-    #Planar constant
+    #Planar constant --> u1 ∗ x + u2 ∗ y + u3 ∗ z + K = 0
     k = -1 * (a.x*surface_normal[0] + a.y*surface_normal[1] + a.z*surface_normal[2])
     
-    #Declares planar origin
+    #Declares planar origin = point a
     origin = AtomicPoint(a.x, a.y, a.z, "")
     
     return [origin, n_surface_normal, n_ab, n_in_plane_normal, k]

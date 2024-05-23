@@ -34,7 +34,7 @@ for frame in frames:
 
 start = time.time()
 #Consec uses a pop function which modifies the frame list by removing the first entry
-consec_solutions = cfpc.multiframePoreCalculator(frames)
+consec_solutions = cfpc.multiframePoreCalculator(frames, z_split=36.75)
 end = time.time()
 
 #Get calculated sphere location, result[1] for each

@@ -68,13 +68,16 @@ def atomFinderDist(p, dist, atom_list):
     return solutions
     
 
-def multiframePoreCalculator(frame_list):
+def multiframePoreCalculator(frame_list, **kwargs):
     '''Function finds the largest solid sphere that can pass through each of 
     the given frames of the pore. Input is produced the from the positional 
     frame data from a .pdb file. The multiframePDBReader function from the 
     pdbPoreReader file will produce the list from a .pdb file.
     
     @param frame_list List of list of AtomicPoints produced with multiframePDBReader 
+    kwargs :
+        z-split : float
+            z at which possible answers are devided into upper and lower sections
     @return List of solid sphere coordinates and radii in the form of an AtomicPoint. 
         The largest solid sphere that can pass through pore of each given frame. [[AtomicPoint, [List of 3 bounding atoms]], ...]
     '''
@@ -122,8 +125,10 @@ def multiframePoreCalculator(frame_list):
 
         #Splits list into two based on some z value and returns section
         #with the lower maximum radius
-        cut_list = pcf.clusterPointList(frame_solution_set, 34, "solution_lowMaxR")
-            
+        if 'z_split' in kwargs:
+            cut_list = pcf.clusterPointList(frame_solution_set, kwargs['z_split'], "solution_lowMaxR")
+        else: cut_list = pcf.clusterPointList(frame_solution_set, 34, "solution_lowMaxR")
+        
         #Sorts the list in acending order by radius
         cut_list = pcf.sortList(cut_list, "solution_topRadius")
             
@@ -151,5 +156,6 @@ def multiframePoreCalculator(frame_list):
         solutions.append(frame_solution_set)
         prev_solution = frame_solution_set[1]
         prev_frame = frame
-        
+    
+    frame_list = [frame_1] + frame_list  #regenerates frame_list for sebsequent calculations if neccissary
     return solutions

@@ -1,0 +1,5 @@
+Code by Samuel Darer with assistance from WPI Professors Ronald Grimm and Dmitry Korkin
+
+The files here represent an attempt to develop and algorithm that can mathematically determine the largest solid sphere that can pass through a representation of a molecular pore (such as a metal organic framework (MOF) pore) in the form of a .pdb file. Understanding the relationship between pore size, pore caps, and the size of guest molecules that can be trapped will be helpful to developing gest capture and release technology, such as might be used for therapeutic drug delivery.
+
+The full in-progress code can be found in the In_Progress_Code folder. This will change over time as the algorithm is still in development. For a more succinct example of the code and a sample application, look in the ExampleCode folder. Open the ExampleTest.py file in a Python IDE of your choice (I use Spyder), and then run the .py file from that environment.

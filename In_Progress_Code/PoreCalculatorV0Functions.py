@@ -49,35 +49,35 @@ def circleCalculation(a, b, c, pointList, sliceList, capGraph, **kwargs):
     
     r = center.VanDerWaalsRadius
     
-    #Check if sphere radius is large enough. Haven't seen an answer yet with a vdwr < 1.5, keeping
+    #Check if candidate sphere radius is large enough. Haven't seen an answer yet with a vdwr < 1.5, keeping
     #limit at 1 for now
     if r <= 1: return [-7, center]
     
     #Trying a euclid distance check. So far no answers have been more than 2.75
-    #xy dist from the center of the pore (0,0). Should try with center of mass and 
-    #see if it changes as well. Flat limiting at 3 for now, not sure if totally applicable,
+    #xy dist from the center of the pore (0,0). Flat limiting at 3 for now, not sure if totally applicable,
     #could see missing outlier
     if center.distBetween2D(AtomicPoint(0, 0, 0, ""), False) > 3:
         return [-8, center]
     
-    #Checks if circle intersects other atoms, returns invalid result if so
+    #Checks if candidate sphere intersects other atoms, returns invalid result if so
     for p in pointList:
         if p.distBetween(center, True) < 0 and p != a and p != b and p != c:
             return [-3, center]
     
-    
+    #Takes three given atoms and finds the values for the defined plane
     plane  = proc.planarize(a, b, c)
+    
+    #Converts atomic and candidate sphere coordinates to coordinates of new plane
     pa = proc.planarizePoint(a, plane)
     pb = proc.planarizePoint(b, plane)
     pc = proc.planarizePoint(c, plane)
     pcenter = proc.planarizePoint(center, plane)
 
-    #Checks if the circle is surrounded, returns invalid if not
+    #Checks if the candidate is surrounded, returns invalid if not
     if lcf.simpleCircleSurrounded(pa, pb, pc, pcenter) == False:
         return [-1, center]
     
-    
-    
+
     #checks if sphere intersects with the line traveling through the center of the pore at least once
     pathCheck = False
     
